@@ -1,27 +1,17 @@
 package course.labs.todomanager;
 
-import java.util.Calendar;
-import java.util.Date;
-
-import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.TimePickerDialog;
+import android.app.*;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.TimePicker;
+import android.widget.*;
 import course.labs.todomanager.ToDoItem.Priority;
 import course.labs.todomanager.ToDoItem.Status;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class AddToDoActivity extends Activity {
 
@@ -89,32 +79,19 @@ public class AddToDoActivity extends Activity {
 		cancelButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
-
-
-				// TODO - Indicate result and finish
-
-                
-                
+				Log.i(TAG, "Adding to do cancelled");
+				finish();
 			}
 		});
 
-		// TODO - Set up OnClickListener for the Reset Button
 		final Button resetButton = (Button) findViewById(R.id.resetButton);
 		resetButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
-
-				// TODO - Reset data to default values
-
-
-                
-                
-                
-				// reset date and time
+				mTitleText.setText("");
+				mDefaultStatusButton.setChecked(true);
+				mDefaultPriorityButton.setChecked(true);
 				setDefaultDateTime();
-
 			}
 		});
 
@@ -124,22 +101,10 @@ public class AddToDoActivity extends Activity {
 		submitButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
-
 				// gather ToDoItem data
-
-
-				// TODO - Get the current Priority
-				Priority priority = null;
-
-				// TODO - Get the current Status
-				Status status = null;
-
-				// TODO - Get the current ToDoItem Title
-
-
-				String titleString = null;
-
+				final Priority priority = getPriority();
+				final Status status = getStatus();
+				final String titleString = getToDoTitle();
 
 				// Construct the Date string
 				String fullDate = dateString + " " + timeString;
@@ -148,14 +113,8 @@ public class AddToDoActivity extends Activity {
 				Intent data = new Intent();
 				ToDoItem.packageIntent(data, titleString, priority, status,
 						fullDate);
-
-				// TODO - return data Intent and finish
-
-
-
-
-            
-            
+				setResult(RESULT_OK, data);
+				finish();
 			}
 		    });
 	}
